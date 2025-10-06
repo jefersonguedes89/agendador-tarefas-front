@@ -4,18 +4,30 @@
       <mat-card-title>Cadastro de Usuário</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field  appearance="fill" class="full-width">
-        <mat-label >Nome Completo</mat-label>
-        <input matInput  placeholder="Digite o seu nome completo"/>
-      </mat-form-field>
-      <mat-form-field  appearance="fill" class="full-width">
-        <mat-label >Email</mat-label>
-        <input matInput  placeholder="Digite o seu email"/>
-      </mat-form-field>
-      <password-field></password-field>
+      <form [formGroup]="form">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input
+            matInput
+            formControlName="fullName"
+            placeholder="Digite o seu nome completo"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Digite o seu email"
+          />
+        </mat-form-field>
+        <password-field [control]="passwordControl"></password-field>
+      </form>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button class="full-width">Cadastrar</button>
+      <button mat-raised-button class="full-width" (click)="submit()">
+        Cadastrar
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>
