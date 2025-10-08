@@ -12,8 +12,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-register',
@@ -25,8 +23,7 @@ import { CommonModule } from '@angular/common';
     MatSelectModule,
     PasswordFieldComponent,
     ReactiveFormsModule,
-    CommonModule
-],
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -46,9 +43,31 @@ export class RegisterComponent {
     return this.form.get('password') as FormControl;
   }
 
-  submit() {
+  get fullNameErrors(): string | null {
+    const fullNameControl = this.form.get('fullName');
+    if (fullNameControl?.hasError('required')) {
+      return 'O nome completo é obrigatório';
+    }
+    if (fullNameControl?.hasError('minlength')) {
+      return 'Cadastre um nome com mais de 3 letras';
+    }
+    return null;
+  }
 
-    if(this.form.invalid){
+  get emailErrors(): string | null {
+    const emailControl = this.form.get('email');
+    // console.log(emailControl)
+    if (emailControl?.hasError('required')) {
+      return 'O email é obrigatório';
+    }
+    if (emailControl?.hasError('email')) {
+      return 'Cadastre um email válido';
+    }
+    return null;
+  }
+
+  submit() {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
