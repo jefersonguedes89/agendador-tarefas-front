@@ -35,7 +35,7 @@ export class RegisterComponent {
     this.form = this.formBuilder.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['',[ Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -65,6 +65,8 @@ export class RegisterComponent {
     }
     return null;
   }
+
+
 
   submit() {
     if (this.form.invalid) {
