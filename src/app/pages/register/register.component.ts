@@ -10,6 +10,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 
 @Component({
@@ -32,9 +33,9 @@ export class RegisterComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      fullName: [''],
-      email: [''],
-      password: [''],
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 
@@ -43,6 +44,12 @@ export class RegisterComponent {
   }
 
   submit() {
-    console.log(this.form.value);
+
+    if(this.form.invalid){
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    console.log('Formulário submetido', this.form.value);
   }
 }
