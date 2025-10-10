@@ -9,12 +9,12 @@
           <mat-label>Nome Completo</mat-label>
           <input
             matInput
-            formControlName="fullName"
+            formControlName="nome"
             placeholder="Digite o seu nome completo"
           />
 
           @if (fullNameErrors) {
-          <mat-error>{{fullNameErrors}}</mat-error>
+          <mat-error>{{ fullNameErrors }}</mat-error>
           }
         </mat-form-field>
         <mat-form-field appearance="fill" class="full-width">
@@ -25,8 +25,8 @@
             placeholder="Digite o seu email"
           />
           @if (emailErrors) {
-          <mat-error>{{emailErrors}}</mat-error>
-          }  
+          <mat-error>{{ emailErrors }}</mat-error>
+          }
         </mat-form-field>
         <password-field [control]="passwordControl"></password-field>
       </form>
@@ -35,10 +35,13 @@
       <button
         mat-raised-button
         class="full-width"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || isLoading"
         (click)="submit()"
       >
-        Cadastrar
+        <span class="cad-button-content">
+          {{ isLoading ? "Cadastrando..." : "Cadastrar" }}
+          @if(isLoading){<mat-spinner diameter="20"></mat-spinner>}
+        </span>
       </button>
     </mat-card-actions>
   </mat-card>
