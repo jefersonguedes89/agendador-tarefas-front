@@ -15,7 +15,7 @@ export class PasswordFieldComponent {
   hide = signal(true);
 
   @Input({required: true}) control!: FormControl;
-
+  @Input() placeholder: string = 'Digite a sua senha';
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
