@@ -21,7 +21,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
   private routerService = inject(RouterStateService);
 
   ngOnInit(): void {
-    this.inscricaoRota = this.routerService.rotaAtual$.subscribe(url => {
+    this.inscricaoRota = this.routerService.rotaAtual$.subscribe((url) => {
       this.rotaAtual = url;
     });
   }
@@ -31,8 +31,10 @@ export class TopMenuComponent implements OnInit, OnDestroy {
   }
 
   estaNaRotaRegister(): boolean {
-    return this.rotaAtual === '/register'
+    return this.rotaAtual === '/register';
   }
 
-
+  estaNaRotaLogin(): boolean {
+    return this.rotaAtual === '/login';
+  }
 }
