@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
-
 @Component({
   selector: 'app-login',
   imports: [
@@ -57,6 +56,12 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
+    }
+  }
+
   get emailErrors(): string | null {
     const emailControl = this.form.get('email');
     // console.log(emailControl)
@@ -87,8 +92,14 @@ export class LoginComponent {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (response) => {
-          this.authService.saveToken(response)
-          this.router.navigate(['/']);
+          this.authService.saveToken(response);
+          this.userService.getUserByEmail(response).subscribe({
+            next: (user) => {
+              this.authService.saveUser(user);
+            },
+          });
+
+          this.router.navigate(['/tasks']);
         },
         error: (error) => {
           console.error(`Erro ao entrar`, error);

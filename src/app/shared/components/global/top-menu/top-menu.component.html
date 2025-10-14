@@ -1,15 +1,30 @@
 <mat-toolbar class="app-top-menu-toolbar">
   <span class="logo">
     <a routerLink="/">
-        <img [src]="appLogo" alt="Logo" class="logo-img" />
+      <img [src]="appLogo" alt="Logo" class="logo-img" />
     </a>
   </span>
+
+  @if(!estaLogado){
   <span class="spacer"></span>
   <a mat-button>Preços</a>
   <a mat-button>Contato</a>
   <span class="spacer"></span>
-  <button mat-button [disabled]="estaNaRotaLogin()" routerLink="/login">Entrar</button>
-  <button mat-flat-button [disabled]="estaNaRotaRegister()" routerLink="/register">
+  <button mat-button [disabled]="estaNaRotaLogin()" routerLink="/login">
+    Entrar
+  </button>
+  <button
+    mat-flat-button
+    [disabled]="estaNaRotaRegister()"
+    routerLink="/register"
+  >
     Cadastrar-se
   </button>
+  } @if(estaLogado){
+  <div mat-card-avatar [matMenuTriggerFor]="menu" class="avatar-usuario">{{pegarInicialUsuario()}}</div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Meus dados</button>
+    <button mat-menu-item (click)="logout()">Sair</button>
+  </mat-menu>
+  }
 </mat-toolbar>

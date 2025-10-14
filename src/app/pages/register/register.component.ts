@@ -16,6 +16,7 @@ import { UserService } from '../../services/user.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -40,6 +41,7 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.form = this.formBuilder.group({
@@ -47,6 +49,12 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
+    }
   }
 
   get passwordControl(): FormControl {
@@ -85,15 +93,16 @@ export class RegisterComponent {
 
     this.isLoading = true;
 
-    this.userService.register(formData)
-    .pipe(finalize(() => this.isLoading = false))
-    .subscribe({
-      next: (response) => {
-        this.router.navigate(['/login'])
-      },
-      error: (error) => {
-        console.error(`Erro ao registrar usuário`, error);
-      },
-    });
+    this.userService
+      .register(formData)
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error(`Erro ao registrar usuário`, error);
+        },
+      });
   }
 }
