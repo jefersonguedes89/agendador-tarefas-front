@@ -13,4 +13,9 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
 }
