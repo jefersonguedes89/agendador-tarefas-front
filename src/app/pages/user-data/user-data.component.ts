@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserResponse, UserService } from '../../services/user.service';
+import { ModalDialogComponent } from '../../shared/components/modal-dialog/modal-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-data',
@@ -38,10 +40,33 @@ export class UserDataComponent {
 
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
-  
+  readonly dialog = inject(MatDialog);
+
   user = this.userService.getUser();
   form = this.formBuilder.group({
     nome: [{ value: this.user?.nome || '', disabled: true }],
     email: [{ value: this.user?.email || '', disabled: true }],
   });
+
+  cadastrarEndereco() {
+    // window.alert("Cadastrado endereço")
+    const dialogRef = this.dialog.open(ModalDialogComponent, {
+      data: {title: 'Adicionar Endereço'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  cadastrarTelefone() {
+    // window.alert('Cadastrado telefone');
+    const dialogRef = this.dialog.open(ModalDialogComponent, {
+       data: {title: 'Adicionar Telefone'},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
 }
